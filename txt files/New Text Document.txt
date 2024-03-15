@@ -1,0 +1,10 @@
+DELIMITER //
+
+CREATE TRIGGER after_insert_trigger
+AFTER INSERT ON your_table
+FOR EACH ROW
+BEGIN
+    -- Replace 'your_python_script_path' with the actual path to your Python script
+    SET @cmd = CONCAT('python3 your_python_script_path.py');
+    CALL sys_exec(@cmd);
+END;

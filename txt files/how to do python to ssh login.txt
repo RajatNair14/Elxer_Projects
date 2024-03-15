@@ -1,0 +1,124 @@
+Bard:
+
+pip install paramiko
+
+import paramiko
+
+# Replace these with your actual information
+hostname = "your_server_hostname"
+username = "your_server_username"
+password = "your_server_password"
+
+client = paramiko.SSHClient()
+
+# Automatically add missing host keys (not recommended for production)
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+# Connect to the server
+client.connect(hostname, username=username, password=password)
+
+stdin, stdout, stderr = client.exec_command("ls -l")
+
+# Read the output
+output = stdout.read().decode()
+print(output)
+
+client.close()
+
+
+
+
+
+
+
+Chat GPT:
+
+
+import paramiko
+
+def ssh_login(hostname, port, username, password):
+    try:
+        # Create an SSH client
+        client = paramiko.SSHClient()
+
+        # Automatically add the server's host key (this is insecure and should be done with caution)
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        # Connect to the SSH server
+        client.connect(hostname, port=port, username=username, password=password)
+
+        print("SSH login successful!")
+
+        # Perform any operations on the remote server here
+
+        # Close the SSH connection
+        client.close()
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Replace these values with your actual SSH server details
+hostname = 'your_server_hostname'
+port = 22  # Default SSH port is 22
+username = 'your_username'
+password = 'your_password'
+
+ssh_login(hostname, port, username, password)
+
+
+private_key_path = '/path/to/your/private/key'
+client.connect(hostname, port=port, username=username, key_filename=private_key_path)
+
+
+
+
+
+
+
+Black Box:
+
+import paramiko
+
+# Replace these with your actual values
+host = 'your_remote_server'
+port = 22
+username = 'your_username'
+password = 'your_password'
+command = 'your_command'
+
+# Establish an SSH connection
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect(host, port, username, password)
+
+# Execute the command
+stdin, stdout, stderr = ssh.exec_command(command)
+
+# Print the output of the command
+print(stdout.read().decode('utf-8'))
+
+# Close the SSH connection
+ssh.close()
+
+OR
+
+import subprocess
+
+# Replace these with your actual values
+host = 'your_remote_server'
+port = 22
+username = 'your_username'
+password = 'your_password'
+command = 'your_command'
+
+# Execute the SSH command
+result = subprocess.run(
+    ['ssh', '-p', str(port), username + '@' + host, command],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    input=password,
+    encoding='utf-8'
+)
+
+# Print the output of the command
+print(result.stdout)

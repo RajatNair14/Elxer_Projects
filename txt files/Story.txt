@@ -1,0 +1,12 @@
+As a system used we need to corelate alarms detect dependencies:
+
+Take Action or create a ticket/Incedent.
+Classify the Incedent(warning/critical etc).
+Analise the impacted user and also tag the impacted user to the incedent.
+Notify multiple stake holder like ILL customer.
+
+(from scrach :- parsing of alarm which to be supressed and which should be highlighted)
+(olt log/hcore log)
+
+
+Order module Flow:

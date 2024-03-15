@@ -1,0 +1,77 @@
+Microsoft Windows [Version 10.0.19044.3086]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\rajat.n_elxer>mongosh
+Current Mongosh Log ID: 6574377dffd2308c63996237
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1
+Using MongoDB:          7.0.4
+Using Mongosh:          2.1.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+------
+   The server generated these startup warnings when booting
+   2023-12-09T13:47:12.946+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+test> use elxer
+switched to db elxer
+elxer> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+elxer> db.createCollection("emp")
+{ ok: 1 }
+elxer> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+elxer    8.00 KiB
+local   72.00 KiB
+elxer> db.collections
+elxer.collections
+elxer> show collections
+emp
+elxer> db.emp.inertOne({eid:"1",name:"Rajat",flag:1})
+TypeError: db.emp.inertOne is not a function
+elxer> db.emp.insertOne({eid:"1",name:"Rajat",flag:1})
+{
+  acknowledged: true,
+  insertedId: ObjectId('65743915ffd2308c63996238')
+}
+elxer> db.emp.find()
+[
+  {
+    _id: ObjectId('65743915ffd2308c63996238'),
+    eid: '1',
+    name: 'Rajat',
+    flag: 1
+  }
+]
+elxer> db.emp.insertOne({eid:"2",name:"Vishal",flag:1})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6574399dffd2308c63996239')
+}
+elxer> db.emp.find()
+[
+  {
+    _id: ObjectId('65743915ffd2308c63996238'),
+    eid: '1',
+    name: 'Rajat',
+    flag: 1
+  },
+  {
+    _id: ObjectId('6574399dffd2308c63996239'),
+    eid: '2',
+    name: 'Vishal',
+    flag: 1
+  }
+]

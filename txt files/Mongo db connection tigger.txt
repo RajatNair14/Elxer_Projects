@@ -1,0 +1,94 @@
+Bard:
+
+
+pip install pymongo
+
+
+from pymongo import MongoClient
+
+# Replace with your connection details
+client = MongoClient("mongodb://localhost:27017/")
+db = client["your_database"]
+collection = db["your_collection"]
+
+# Define the date and expiration time
+target_date = datetime.datetime(2023, 12, 07)
+expiration_time = 0 # Expires instantly
+
+# Create a TTL index on the date field
+collection.create_index("date", expireAfterSeconds=expiration_time)
+
+# Insert a document with the target date
+doc = { "date": target_date }
+collection.insert_one(doc)
+
+# Connect to the collection again to access the document
+doc = collection.find_one({ "date": target_date })
+
+# Trigger your Python code when the document expires and is deleted
+# ... Your Python code here ...
+
+# Close the connection
+client.close()
+
+
+
+Chat GPT:
+
+
+
+from pymongo import MongoClient
+import time
+
+# Replace these values with your actual MongoDB connection details
+mongo_uri = "mongodb://your_username:your_password@your_host:your_port/your_database"
+collection_name = "your_collection"
+
+client = MongoClient(mongo_uri)
+
+# Specify the database and collection
+db = client.get_database()
+collection = db[collection_name]
+
+# Define the filter for the change stream
+pipeline = [{'$match': {'operationType': 'insert'}}]  # You can customize this filter
+
+# Set up the change stream
+with collection.watch(pipeline) as stream:
+    print("Waiting for changes...")
+    for change in stream:
+        # Handle the change event here
+        print("Change detected:", change)
+
+        # Check if the date condition is met and execute your Python code
+        # For example, you can check if 'your_date_field' equals a specific date
+        if 'your_date_field' in change['fullDocument'] and change['fullDocument']['your_date_field'] == 'your_condition_date':
+            # Execute your Python code here
+            print("Executing Python code...")
+            # Your code goes here
+
+client.close()
+
+
+
+
+Black Box:
+
+
+
+from pymongo import MongoClient, ChangeStream
+
+# Replace these with your actual values
+client = MongoClient('mongodb://your_username:your_password@your_remote_server:27017/')
+db = client['your_database']
+collection = db['your_collection']
+
+# Create a change stream
+with ChangeStream(collection) as stream:
+    for change in stream:
+        # If a new document is inserted
+        if change['operationType'] == 'insert':
+            print('New document inserted:', change['fullDocument'])
+            
+            # Your Python code to get executed
+            print('Python code executed')

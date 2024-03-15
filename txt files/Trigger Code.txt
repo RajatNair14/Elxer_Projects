@@ -1,0 +1,13 @@
+DELIMITER //
+
+CREATE TRIGGER after_emp_insert1
+AFTER INSERT ON emp
+FOR EACH ROW
+BEGIN
+  IF NEW.eid >= 1 THEN
+    INSERT INTO emp_log (eid, name, flag) VALUES (NEW.eid, NEW.name, NEW.flag);
+  END IF;
+END;
+//
+
+DELIMITER ;
